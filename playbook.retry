@@ -1,0 +1,4 @@
+ansible-packer-arch
+ansible-packer-centos7
+ansible-packer-jessie
+ansible-packer-xenial

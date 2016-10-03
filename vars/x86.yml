@@ -1,0 +1,4 @@
+---
+packer_file: "packer_{{ packer_version }}_linux_386.zip"
+
+packer_url: "https://releases.hashicorp.com/packer/{{ packer_version }}/{{ packer_file }}"

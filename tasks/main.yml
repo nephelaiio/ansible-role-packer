@@ -1,0 +1,70 @@
+---
+# Include variable definitions
+- name: include variable os overrides
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+      - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+      - "vars/{{ ansible_distribution }}.yml"
+      - "vars/{{ ansible_os_family }}.yml"
+      skip: true
+  tags:
+    - packer
+
+- name: include variable architecture overrides
+  include_vars: "{{ item }}"
+  with_items:
+    - "vars/{{ ansible_machine }}.yml"
+  tags:
+    - packer
+
+- name: create packer directory
+  file: >
+    dest="~{{ item }}/{{ packer_path }}"
+    state=directory
+  become: no
+  with_items: "{{ packer_users }}"
+  tags:
+    - packer
+
+- name: download packer
+  get_url: >
+    url="{{ packer_url }}"
+    dest="~{{ item }}/{{ packer_path }}"
+  become: no
+  with_items: "{{ packer_users }}"
+  tags:
+    - packer
+
+- name: extract packer binaries
+  unarchive: >
+    copy=no
+    src="~{{ item }}/{{ packer_path }}/{{ packer_file }}"
+    dest="~{{ item }}/{{ packer_path }}"
+    creates="~{{ item }}/{{ packer_path }}/packer"
+  become: no
+  with_items: "{{ packer_users }}"
+  tags:
+    - packer
+
+- name: create shell configuration files
+  template: >
+    dest="~{{ item }}/.{{ packer_conf_file }}"
+    src="{{ packer_conf_file }}"
+    force=no
+  become: no
+  when: packer_conf_file is defined
+  with_items: "{{ packer_users }}"
+  tags:
+    - "packer"
+    - "packer_conf"
+
+- name: configure packer path
+  lineinfile: >
+    dest="~{{ item }}/.{{ packer_conf_file }}"
+    line='[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"'
+  become: no
+  with_items: "{{ packer_users }}"
+  tags:
+    - "packer"
+    - "packer_conf"

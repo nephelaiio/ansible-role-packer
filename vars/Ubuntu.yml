@@ -1,0 +1,3 @@
+---
+# Variable definitions and overrides for Ubuntu
+packer_conf_file: bash_profile

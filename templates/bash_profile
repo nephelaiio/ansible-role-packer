@@ -1,0 +1,2 @@
+[[ -f ~/.bashrc ]] && . ~/.bashrc
+[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"
