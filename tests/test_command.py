@@ -6,4 +6,4 @@ testinfra_hosts = \
 
 
 def test_command(Command):
-    assert Command('packer version').rc == 0
+    assert Command('~/.packer/packer version').rc == 0
