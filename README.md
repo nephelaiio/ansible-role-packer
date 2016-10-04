@@ -3,7 +3,7 @@ nephelaiio.packer
 
 [![Build Status](https://travis-ci.org/nephelaiio/ansible-role-packer.svg?branch=master)](https://travis-ci.org/nephelaiio/ansible-role-packer)
 
-An [ansible role](https://galaxy.ansible.com/nephelaiio/packer) to install and configure packer
+An [ansible role](https://galaxy.ansible.com/nephelaiio/packer) to install and configure [packer](https://www.packer.io)
 
 Requirements
 ------------
