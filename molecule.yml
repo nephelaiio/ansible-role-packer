@@ -33,3 +33,5 @@ dependency:
 
 verifier:
   name: testinfra
+  options:
+      ignore: roles
