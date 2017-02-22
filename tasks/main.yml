@@ -44,8 +44,10 @@
     creates="~{{ item }}/{{ packer_path }}/packer"
   become: no
   with_items: "{{ packer_users }}"
+  changed_when: false
   tags:
     - packer
+    - ignore_testinfra
 
 - name: create shell configuration files
   template: >
