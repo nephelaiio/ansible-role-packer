@@ -5,6 +5,3 @@ packer_version: 0.10.2
 packer_path: .packer
 
 packer_conf_file: bashrc
-
-packer_users:
-  - "{{ ansible_user }}"

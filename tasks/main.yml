@@ -19,54 +19,44 @@
     - packer
 
 - name: create packer directory
-  file: >
-    dest="~{{ item }}/{{ packer_path }}"
-    state=directory
-  become: no
-  with_items: "{{ packer_users }}"
+  file:
+    dest: "~/{{ packer_path }}"
+    state: directory
   tags:
     - packer
 
 - name: download packer
-  get_url: >
-    url="{{ packer_url }}"
-    dest="~{{ item }}/{{ packer_path }}"
-  become: no
-  with_items: "{{ packer_users }}"
+  get_url:
+    url: "{{ packer_url }}"
+    dest: "~/{{ packer_path }}"
   tags:
     - packer
 
 - name: extract packer binaries
-  unarchive: >
-    copy=no
-    src="~{{ item }}/{{ packer_path }}/{{ packer_file }}"
-    dest="~{{ item }}/{{ packer_path }}"
-    creates="~{{ item }}/{{ packer_path }}/packer"
-  become: no
-  with_items: "{{ packer_users }}"
+  unarchive:
+    copy: no
+    src: "~/{{ packer_path }}/{{ packer_file }}"
+    dest: "~/{{ packer_path }}"
+    creates: "~/{{ packer_path }}/packer"
   changed_when: false
   tags:
     - packer
     - ignore_testinfra
 
 - name: create shell configuration files
-  template: >
-    dest="~{{ item }}/.{{ packer_conf_file }}"
-    src="{{ packer_conf_file }}"
-    force=no
-  become: no
+  template:
+    dest: "~/.{{ packer_conf_file }}"
+    src: "{{ packer_conf_file }}"
+    force: no
   when: packer_conf_file is defined
-  with_items: "{{ packer_users }}"
   tags:
     - "packer"
     - "packer_conf"
 
 - name: configure packer path
   lineinfile: >
-    dest="~{{ item }}/.{{ packer_conf_file }}"
+    dest="~/.{{ packer_conf_file }}"
     line='[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"'
-  become: no
-  with_items: "{{ packer_users }}"
   tags:
     - "packer"
     - "packer_conf"
