@@ -54,9 +54,9 @@
     - "packer_conf"
 
 - name: configure packer path
-  lineinfile: >
-    dest="~/.{{ packer_conf_file }}"
-    line='[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"'
+  lineinfile:
+    dest: "~/.{{ packer_conf_file }}"
+    line: '[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"'
   tags:
     - "packer"
     - "packer_conf"
