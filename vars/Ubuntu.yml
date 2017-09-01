@@ -1,3 +1,4 @@
 ---
-# Variable definitions and overrides for Ubuntu
-packer_conf_file: bash_profile
+packer_conf_file: ~/bash_profile
+
+packer_conf_template: bash_profile

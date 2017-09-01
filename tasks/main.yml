@@ -4,9 +4,9 @@
   include_vars: "{{ item }}"
   with_first_found:
     - files:
-      - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
-      - "vars/{{ ansible_distribution }}.yml"
-      - "vars/{{ ansible_os_family }}.yml"
+        - "vars/{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+        - "vars/{{ ansible_distribution }}.yml"
+        - "vars/{{ ansible_os_family }}.yml"
       skip: true
   tags:
     - packer
@@ -20,7 +20,7 @@
 
 - name: create packer directory
   file:
-    dest: "~/{{ packer_path }}"
+    dest: "{{ packer_path }}"
     state: directory
   tags:
     - packer
@@ -28,16 +28,16 @@
 - name: download packer
   get_url:
     url: "{{ packer_url }}"
-    dest: "~/{{ packer_path }}"
+    dest: "{{ packer_path }}"
   tags:
     - packer
 
 - name: extract packer binaries
   unarchive:
     copy: no
-    src: "~/{{ packer_path }}/{{ packer_file }}"
-    dest: "~/{{ packer_path }}"
-    creates: "~/{{ packer_path }}/packer"
+    src: "{{ packer_path }}/{{ packer_file }}"
+    dest: "{{ packer_path }}"
+    creates: "{{ packer_path }}/packer"
   changed_when: false
   tags:
     - packer
@@ -45,8 +45,8 @@
 
 - name: create shell configuration files
   template:
-    dest: "~/.{{ packer_conf_file }}"
-    src: "{{ packer_conf_file }}"
+    dest: "{{ packer_conf_file }}"
+    src: "{{ packer_conf_template }}"
     force: no
   when: packer_conf_file is defined
   tags:
@@ -55,8 +55,8 @@
 
 - name: configure packer path
   lineinfile:
-    dest: "~/.{{ packer_conf_file }}"
-    line: '[[ -d ~/{{ packer_path }} ]] && export PATH="~/{{ packer_path }}:$PATH"'
+    dest: "{{ packer_conf_file }}"
+    line: '[[ -d {{ packer_path }} ]] && export PATH="{{ packer_path }}:$PATH"'
   tags:
     - "packer"
     - "packer_conf"

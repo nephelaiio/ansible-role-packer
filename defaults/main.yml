@@ -1,7 +1,8 @@
 ---
-# User variables for role
 packer_version: 0.10.2
 
-packer_path: .packer
+packer_path: ~/.packer
 
-packer_conf_file: bashrc
+packer_conf_file: ~/.bashrc
+
+packer_conf_template: bashrc
