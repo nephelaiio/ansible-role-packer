@@ -14,9 +14,9 @@ Please refer to the [defaults file](/defaults/main.yml) for an up to date list o
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```
-    - hosts: servers
-      roles:
-         - role: packer
+- hosts: servers
+  roles:
+     - role: packer
 ```
 
 ## Testing
