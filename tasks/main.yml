@@ -1,5 +1,4 @@
 ---
-# Include variable definitions
 - name: include variable os overrides
   include_vars: "{{ item }}"
   with_first_found:
@@ -8,29 +7,21 @@
         - "vars/{{ ansible_distribution }}.yml"
         - "vars/{{ ansible_os_family }}.yml"
       skip: true
-  tags:
-    - packer
 
 - name: include variable architecture overrides
   include_vars: "{{ item }}"
   with_items:
     - "vars/{{ ansible_machine }}.yml"
-  tags:
-    - packer
 
 - name: create packer directory
   file:
     dest: "{{ packer_path }}"
     state: directory
-  tags:
-    - packer
 
 - name: download packer
   get_url:
     url: "{{ packer_url }}"
     dest: "{{ packer_path }}"
-  tags:
-    - packer
 
 - name: extract packer binaries
   unarchive:
@@ -40,7 +31,6 @@
     creates: "{{ packer_path }}/packer"
   changed_when: false
   tags:
-    - packer
     - ignore_testinfra
 
 - name: create shell configuration files
@@ -49,14 +39,8 @@
     src: "{{ packer_conf_template }}"
     force: no
   when: packer_conf_file is defined
-  tags:
-    - "packer"
-    - "packer_conf"
 
 - name: configure packer path
   lineinfile:
     dest: "{{ packer_conf_file }}"
     line: '[[ -d {{ packer_path }} ]] && export PATH="{{ packer_path }}:$PATH"'
-  tags:
-    - "packer"
-    - "packer_conf"
