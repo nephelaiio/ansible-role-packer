@@ -1,5 +1,5 @@
 ---
-packer_version: 0.10.2
+packer_version: 1.2.0
 
 packer_path: ~/.packer
 
